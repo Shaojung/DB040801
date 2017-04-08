@@ -1,5 +1,6 @@
 package com.example.teacher.db040801;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,12 +16,18 @@ import java.io.OutputStream;
 
 public class MainActivity extends AppCompatActivity {
     SQLiteDatabase db;
+    String outFilename;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        outFilename = getFilesDir().getAbsolutePath() + File.separator + "students.sqlite";
+        File f = new File(outFilename);
         try {
-            copyDatabase();
+            if (!f.exists())
+            {
+                copyDatabase();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -34,11 +41,18 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("MYDB", n);
             }while(c.moveToNext());
         }
+        ContentValues cv = new ContentValues();
+        cv.put("ID", 4);
+        cv.put("Name", "DDD");
+        cv.put("Tel", "12312312");
+        cv.put("Addr", "334455");
+        db.insert("phone", null, cv);
+
     }
 
     private void copyDatabase() throws IOException {
         // Path to the empty database.
-        String outFilename = getFilesDir().getAbsolutePath() + File.separator + "students.sqlite";
+
 
         // Open the empty database as the output stream.
         OutputStream outputDatabase = new FileOutputStream(outFilename);
