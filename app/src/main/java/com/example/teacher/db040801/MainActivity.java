@@ -48,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
         cv.put("Addr", "334455");
         db.insert("phone", null, cv);
 
+        db.delete("phone", "ID=?", new String[] {"2"});
+
+        ContentValues cv2 = new ContentValues();
+        cv2.put("Name", "A1A2A3");
+        db.update("phone", cv2, "ID=?", new String[] {"1"});
+
+
+
     }
 
     private void copyDatabase() throws IOException {
