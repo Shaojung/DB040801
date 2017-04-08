@@ -1,5 +1,6 @@
 package com.example.teacher.db040801;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -24,11 +25,15 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         db = SQLiteDatabase.openOrCreateDatabase(getFilesDir().getAbsolutePath() + File.separator + "students.sqlite", null);
-        SQLiteCursor c = (SQLiteCursor) db.rawQuery("select * from phone", new String[] {});
-        c.moveToFirst();
-        String n = c.getString(1);
-        Log.d("MYDB", n);
-
+        // Cursor c = db.rawQuery("select * from phone", new String[] {});
+        Cursor c = db.query("phone", new String[] {"ID", "Name", "Tel", "Addr"}, null, null, null, null, null);
+        if (c.moveToFirst())
+        {
+            do {
+                String n = c.getString(1);
+                Log.d("MYDB", n);
+            }while(c.moveToNext());
+        }
     }
 
     private void copyDatabase() throws IOException {
