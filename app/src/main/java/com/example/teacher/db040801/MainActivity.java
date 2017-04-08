@@ -1,8 +1,10 @@
 package com.example.teacher.db040801;
 
+import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,7 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class MainActivity extends AppCompatActivity {
-
+    SQLiteDatabase db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        db = SQLiteDatabase.openOrCreateDatabase(getFilesDir().getAbsolutePath() + File.separator + "students.sqlite", null);
+        SQLiteCursor c = (SQLiteCursor) db.rawQuery("select * from phone", new String[] {});
+        c.moveToFirst();
+        String n = c.getString(1);
+        Log.d("MYDB", n);
+
     }
 
     private void copyDatabase() throws IOException {
